@@ -1,5 +1,6 @@
 import paddle
 import numpy as np
+
 # 自定义数据读取类
 class TitleGenerateData(paddle.io.Dataset):
     """
@@ -8,19 +9,20 @@ class TitleGenerateData(paddle.io.Dataset):
         data（dict）：标题和对应的正文，均未经编码
             title（str）：标题
             content（str）：正文
-
+        tokenizer: 分词器
         max_len: 接收的最大长度
+        mode: 数据集模式，'train'或'dev'
+        scale: 训练集划分比例
     """
-    def __init__(self, data, tokenizer,max_len = 128,mode='train'):
+    def __init__(self, data, tokenizer, max_len = 128, mode='train', scale=0.8):
         super(TitleGenerateData, self).__init__()
         self.data_ = data
         self.tokenizer = tokenizer
         self.max_len = max_len
-        scale = 0.8 # 80%训练
-        if mode=='train':
-            self.data = self.data_[:int(scale*len(self.data_))]
+        if mode == 'train':
+            self.data = self.data_[:int(scale * len(self.data_))]
         else:
-            self.data = self.data_[int(scale*len(self.data_)):]
+            self.data = self.data_[int(scale * len(self.data_)):]
 
     def __getitem__(self, idx):
         item = self.data[idx]
@@ -50,6 +52,6 @@ class TitleGenerateData(paddle.io.Dataset):
         input_pad_mask = (input_token != 0).astype('float32')
         label_pad_mask = (label_token != 0).astype('float32')
         return input_token, input_token_type, input_pad_mask, label_token, label_pad_mask
-    
+
     def __len__(self):
         return len(self.data)

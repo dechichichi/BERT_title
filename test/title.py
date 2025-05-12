@@ -1,4 +1,5 @@
 import numpy as np
+import paddle
 
 class TitleGen(object):
     """
@@ -30,7 +31,7 @@ class TitleGen(object):
             if next_word in self.tokenizer.convert_tokens_to_ids(['[UNK]', '[PAD]', '[CLS]']):
                 continue
 
-                new_ids = [next_word]
+            new_ids = [next_word]
             if next_word == self.tokenizer.convert_tokens_to_ids(['[SEP]'])[0]:
                 break
             poetry_ids += new_ids

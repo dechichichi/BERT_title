@@ -1,8 +1,35 @@
-数据集
+## 数据集
+
 https://ai-studio-online.bj.bcebos.com/v1/67a38f24198e4fd8baeadc7c5353bcbad8102d1f17084874b49dcc7aaee90271?responseContentDisposition=attachment%3Bfilename%3Dlcsts_data.zip&authorization=bce-auth-v1%2F5cfe9a5e1454405eb2a975c43eace6ec%2F2025-05-09T12%3A03%3A39Z%2F60%2F%2F483c55f029fd969d73d56975f302a44f8a29b6a504faa93ac297499769fd733f
 下载后解压到data文件夹下
 
-模型
+## 架构
+
+```
+BERT_title/
+│
+├── data/
+│   ├── generate.py       # 自定义数据集类
+│   └── lcsts_data.json   # 数据集文件
+│
+├── model/
+│   ├── model.py          # 模型定义
+│   └── moelstruct.py     # 模型结构查看和参数定义
+│
+├── test/
+│   ├── test.py           # 模型测试和ROUGE指标计算
+│   └── title.py          # 标题生成类
+│
+├── train/
+│   └── train.py          # 模型训练
+│
+├── .gitignore            # Git忽略文件
+├── README.md             # 项目说明文档
+└── main.py               # 项目入口文件
+```
+
+## 模型
+
 ![alt text](image.png)
 BERT（Bidirectional Encoder Representations from Transformers）意为来自Transformer的双向编码器表征。不同于最近的语言表征模型，BERT旨在基于所有层的左、右语境来预训练深度双向表征。因此，预训练的BERT表征可以仅用一个额外的输出层进行微调，进而为很多任务(如问答和语言推理)创建当前最优模型，无需对任务特定架构做出大量修改。
 
@@ -89,13 +116,24 @@ Label= NotNext
 BERT使用了更加高效的Transformer结构，高效获取了训练数据的双向表征信息。
 
 文章做了非常详细的消融实验，建议感兴趣的同学可以详细的品读一下原文。
-数据处理
 
+### 使用方法
 
-位置编码
+安装依赖
 
+```bash
+pip install -r requirements.txt
+```
 
-模型训练
+训练模型：
 
+```bash
+python main.py --mode train
+```
 
-模型测试
+测试模型：
+
+```bash
+python main.py --mode test
+```
+
