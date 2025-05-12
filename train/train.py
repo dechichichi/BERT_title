@@ -3,17 +3,19 @@ from paddle.io import DataLoader
 from tqdm import tqdm
 from paddlenlp.metrics import Perplexity
 import paddle
-from model.titlemodel import TitleBertModel
-from data.generate import TitleGenerateData
 # 读取预训练模型
 from paddlenlp.transformers import BertTokenizer
 import json
+import sys
+import os
+# 添加项目路径
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from model.titlemodel import TitleBertModel
+from data.generate import TitleGenerateData
 # 训练参数
 epochs = 20
 context_length = 128
 lr = 1e-3
-# 设置使用GPU
-paddle.set_device('gpu')  # 使用默认GPU
 
 bert_tokenizer = BertTokenizer.from_pretrained('bert-base-chinese')
 # 定义损失函数
