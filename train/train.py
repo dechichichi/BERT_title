@@ -2,6 +2,7 @@
 from paddle.io import DataLoader
 from tqdm import tqdm
 from paddlenlp.metrics import Perplexity
+from paddle.nn import Layer
 import paddle
 # 读取预训练模型
 from paddlenlp.transformers import BertTokenizer
@@ -26,8 +27,8 @@ class Cross_entropy_loss(Layer):
         return paddle.sum(masked_loss)
 
 
-f = open('data/lcsts_data.json')
-data = json.load(f)
+with open('data/lcsts_data.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
 f.close()
 train_dataset = TitleGenerateData(data,bert_tokenizer,mode='train')
 dev_dataset = TitleGenerateData(data,bert_tokenizer,mode='dev') 
@@ -35,7 +36,7 @@ dev_dataset = TitleGenerateData(data,bert_tokenizer,mode='dev')
 train_loader = paddle.io.DataLoader(train_dataset, batch_size=128, shuffle=True)
 dev_loader = paddle.io.DataLoader(dev_dataset, batch_size=64, shuffle=True)
 
-model = TitleBertModel('bert-base-chinese', context_length)
+model = TitleBertModel('bert-base-chinese', context_length,num_classes=101)
 
 
 # 设置优化器
